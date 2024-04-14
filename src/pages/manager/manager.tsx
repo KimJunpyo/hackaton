@@ -1,13 +1,20 @@
 import ManagerTable from './manager-table.tsx';
 import { Box, Tab, Tabs } from '@mui/material';
 import { useState } from 'react';
+import { useGetComplaintsList } from '../../api/complaints/query.ts';
 
 const TabStatus = ['All', 'Success', 'Pending'];
 const TabName = ['모두', '민원 처리 완료', '민원 처리 대기'];
-const stats = [80, 32, 48];
 
 const Manager = () => {
   const [tab, setTab] = useState('All');
+  const { data: items } = useGetComplaintsList(
+    0,
+    10,
+    2,
+    tab === 'All' ? undefined : tab === 'Success' ? 'COMPLETED' : 'PENDING',
+  );
+
   return (
     <div>
       <Tabs
@@ -18,29 +25,10 @@ const Manager = () => {
           setTab(newValue);
         }}>
         {TabStatus.map((tabName, idx) => (
-          <Tab
-            value={tabName}
-            label={TabName[idx]}
-            iconPosition={'end'}
-            icon={
-              <Box
-                sx={{
-                  backgroundColor: tabName === 'All' ? 'black' : tabName === 'Success' ? 'green' : 'red',
-                  color: 'white',
-                  border: 1,
-                  height: '24px',
-                  px: '6px',
-                  borderRadius: '6px',
-                  display: 'flex',
-                  justifyContent: 'center',
-                  alignItems: 'center',
-                }}>
-                {stats[idx]}
-              </Box>
-            }></Tab>
+          <Tab value={tabName} label={TabName[idx]} iconPosition={'end'}></Tab>
         ))}
       </Tabs>
-      <ManagerTable />
+      <ManagerTable rows={items?.data.items} />
     </div>
   );
 };

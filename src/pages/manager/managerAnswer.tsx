@@ -1,10 +1,11 @@
 import { Box, Button, Grid, styled, TextField, Typography } from '@mui/material';
 import { ChangeEvent, useState } from 'react';
 import ArrowBackIosNewIcon from '@mui/icons-material/ArrowBackIosNew';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import BadUserModal from '../../components/BadUserModal.tsx';
 import { useForm } from 'react-hook-form';
 import ManagerCheck from './managerCheck.tsx';
+import { useGetComplaintsIdList } from '../../api/complaints/query.ts';
 
 const VisuallyHiddenInput = styled('input')({
   clip: 'rect(0 0 0 0)',
@@ -18,15 +19,13 @@ const VisuallyHiddenInput = styled('input')({
   width: 1,
 });
 
-const createData = (name: string, title: string, location: string, date: string, bad_status: boolean) => {
-  return { name, title, location, date, bad_status };
-};
-
-const rows = createData('이연진', '저공해자동차 공영주차장 이용혜택 관련 문의', '충청남도 천안시', '2023.02.24', true);
 const ManagerAnswer = () => {
   const [openBadModal, setOpenBadModal] = useState(false);
   const [fileDetails, setFileDetails] = useState<any>([]);
   const [show, setShow] = useState(false);
+  const location = useLocation();
+  const { data: items } = useGetComplaintsIdList(location?.state?.id ?? 0);
+
   const navigate = useNavigate();
   const handleCloseBadModal = () => {
     setOpenBadModal(false);
@@ -93,13 +92,18 @@ const ManagerAnswer = () => {
           </Typography>
           <Grid container spacing={2}>
             <Grid item xs={4}>
-              <TextField sx={{ width: '100%' }} label="민원인" value={rows.name} InputLabelProps={{ shrink: true }} />
+              <TextField
+                sx={{ width: '100%' }}
+                label="민원인"
+                value={items?.data.complainant_name}
+                InputLabelProps={{ shrink: true }}
+              />
             </Grid>
             <Grid item xs={4}>
               <TextField
                 sx={{ width: '100%' }}
                 label="민원 발생지"
-                value={rows.location}
+                value={items?.data.location}
                 InputLabelProps={{ shrink: true }}
               />
             </Grid>
@@ -107,7 +111,7 @@ const ManagerAnswer = () => {
               <TextField
                 sx={{ width: '100%' }}
                 label="민원 날짜"
-                value={rows.date}
+                value={items?.data.receipt_date}
                 InputLabelProps={{ shrink: true }}
               />
             </Grid>
@@ -115,14 +119,14 @@ const ManagerAnswer = () => {
               <TextField
                 sx={{ width: '100%' }}
                 label="민원 제목"
-                value={rows.title}
+                value={items?.data.title}
                 InputLabelProps={{ shrink: true }}
               />
             </Grid>
             <Grid item xs={12}>
               <TextField
                 label="민원 내용"
-                value={'내용'}
+                value={items?.data.content}
                 InputLabelProps={{ shrink: true }}
                 type="textarea"
                 multiline

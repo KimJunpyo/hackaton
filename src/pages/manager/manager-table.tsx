@@ -8,67 +8,7 @@ import Paper from '@mui/material/Paper';
 import FmdBadIcon from '@mui/icons-material/FmdBad';
 import { useNavigate } from 'react-router-dom';
 
-const createData = (
-  name: string,
-  title: string,
-  location: string,
-  status: string,
-  create_date: string,
-  select_date: string,
-  bad_status: boolean,
-) => {
-  return { name, title, location, status, create_date, select_date, bad_status };
-};
-
-const rows = [
-  createData(
-    '이연진',
-    '저공해자동차 공영주차장 이용혜택 관련 문의',
-    '충청남도 천안시',
-    '대기',
-    '2023.02.24',
-    '2023.02.27',
-    true,
-  ),
-  createData(
-    '이연진',
-    '저공해자동차 공영주차장 이용혜택 관련 문의',
-    '충청남도 천안시',
-    '대기',
-    '2023.02.24',
-    '2023.02.27',
-    true,
-  ),
-  createData(
-    '이연진',
-    '저공해자동차 공영주차장 이용혜택 관련 문의',
-    '충청남도 천안시',
-    '대기',
-    '2023.02.24',
-    '2023.02.27',
-    false,
-  ),
-  createData(
-    '이연진',
-    '저공해자동차 공영주차장 이용혜택 관련 문의',
-    '충청남도 천안시',
-    '대기',
-    '2023.02.24',
-    '2023.02.27',
-    true,
-  ),
-  createData(
-    '이연진',
-    '저공해자동차 공영주차장 이용혜택 관련 문의',
-    '충청남도 천안시',
-    '대기',
-    '2023.02.24',
-    '2023.02.27',
-    true,
-  ),
-];
-
-export default function ManagerTable() {
+export default function ManagerTable({ rows }: { rows?: any }) {
   const navigate = useNavigate();
   return (
     <TableContainer component={Paper}>
@@ -85,30 +25,31 @@ export default function ManagerTable() {
           </TableRow>
         </TableHead>
         <TableBody>
-          {rows.map(row => (
-            <TableRow key={row.name} sx={{ '&:last-child td, &:last-child th': { border: 0 }, td: { border: 0 } }}>
-              <TableCell
-                onClick={() => navigate('/manager/answer')}
-                align="center"
-                sx={{ color: 'deepskyblue', borderBottom: 0, cursor: 'pointer' }}>
-                {row.title}
-              </TableCell>
-              <TableCell align="center">
-                {row.bad_status && <FmdBadIcon sx={{ color: 'purple' }} />}
-                {row.name}
-              </TableCell>
-              <TableCell align="center">{row.location}</TableCell>
-              <TableCell align="center">{row.status}</TableCell>
-              <TableCell align="center">{row.create_date}</TableCell>
-              <TableCell align="center">{row.select_date}</TableCell>
-              <TableCell
-                align="center"
-                sx={{ color: 'deepskyblue', cursor: 'pointer' }}
-                onClick={() => navigate('/manager/ai')}>
-                AI 도움
-              </TableCell>
-            </TableRow>
-          ))}
+          {rows &&
+            rows.map((row: any) => (
+              <TableRow key={row.name} sx={{ '&:last-child td, &:last-child th': { border: 0 }, td: { border: 0 } }}>
+                <TableCell
+                  onClick={() => navigate('/manager/answer', { state: { id: row.id } })}
+                  align="center"
+                  sx={{ color: 'deepskyblue', borderBottom: 0, cursor: 'pointer' }}>
+                  {row.title}
+                </TableCell>
+                <TableCell align="center">
+                  {row.warning_message && <FmdBadIcon sx={{ color: 'purple' }} />}
+                  {row.complainant_name}
+                </TableCell>
+                <TableCell align="center">{row.location}</TableCell>
+                <TableCell align="center">{row.status === 'PENDING' ? '대기' : '완료'}</TableCell>
+                <TableCell align="center">{row.receipt_date}</TableCell>
+                <TableCell align="center">{row.assignment_date}</TableCell>
+                <TableCell
+                  align="center"
+                  sx={{ color: 'deepskyblue', cursor: 'pointer' }}
+                  onClick={() => navigate('/manager/ai')}>
+                  AI 도움
+                </TableCell>
+              </TableRow>
+            ))}
         </TableBody>
       </Table>
     </TableContainer>

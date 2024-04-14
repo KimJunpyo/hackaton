@@ -5,7 +5,7 @@ import ComplaintsModal from '../../components/complaintsModal.tsx';
 import ArrowBackIosNewIcon from '@mui/icons-material/ArrowBackIosNew';
 import { useLocation, useNavigate } from 'react-router-dom';
 import BadUserModal from '../../components/BadUserModal.tsx';
-import { useGetComplaintsIdList } from '../../api/complaints/query.ts';
+import { useGetComplaintsIdList, useGetComplaintsRecommend } from '../../api/complaints/query.ts';
 
 const ComplaintsDetail = () => {
   const [openModal, setOpenModal] = useState(false);
@@ -13,10 +13,14 @@ const ComplaintsDetail = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const { data: items } = useGetComplaintsIdList(location?.state?.id ?? 0);
-
+  const { data: recommendItems } = useGetComplaintsRecommend(location?.state.id ?? 0);
+  const [id, setId] = useState(0);
   const handleOpenModal = (id: number) => {
     console.log(id);
-    setOpenModal(true);
+    setId(id);
+    setTimeout(() => {
+      setOpenModal(true);
+    }, 500);
   };
 
   const handleCloseModal = () => {
@@ -26,8 +30,6 @@ const ComplaintsDetail = () => {
   const handleCloseBadModal = () => {
     setOpenBadModal(false);
   };
-
-  console.log(items?.data);
 
   return (
     <div className={'flex flex-col'}>
@@ -79,6 +81,7 @@ const ComplaintsDetail = () => {
             InputLabelProps={{ shrink: true }}
             InputProps={{ readOnly: true }}
           />
+          {items?.data.warning_message && <div className={'text-[#FF5630]'}>{items?.data.warning_message}</div>}
         </Grid>
         <Grid item xs={12}>
           <TextField
@@ -92,8 +95,12 @@ const ComplaintsDetail = () => {
           />
         </Grid>
       </Grid>
-      <ComplaintsDetailTable handleClick={handleOpenModal} />
-      <ComplaintsModal openModal={openModal} handleCloseModal={handleCloseModal} id={0} />
+      <ComplaintsDetailTable rows={recommendItems?.data.items} handleClick={handleOpenModal} />
+      <ComplaintsModal
+        openModal={openModal}
+        handleCloseModal={handleCloseModal}
+        row={recommendItems?.data.items.find((e: any) => e.officer.id === id)}
+      />
       <BadUserModal openModal={openBadModal} handleCloseModal={handleCloseBadModal} />
     </div>
   );

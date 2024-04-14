@@ -16,11 +16,13 @@ export const style = {
 const ComplaintsModal = ({
   openModal,
   handleCloseModal,
+  row,
 }: {
   openModal: boolean;
   handleCloseModal: () => void;
-  id: number | null;
+  row: any;
 }) => {
+  console.log(row);
   return (
     <Modal open={openModal} onClose={handleCloseModal}>
       <Box sx={style}>
@@ -29,26 +31,42 @@ const ComplaintsModal = ({
         </Typography>
         <Grid container spacing={2}>
           <Grid item xs={6}>
-            <TextField sx={{ width: '100%' }} label="이름" placeholder="asd" InputLabelProps={{ shrink: true }} />
+            <TextField
+              sx={{ width: '100%' }}
+              label="이름"
+              value={row?.officer.name}
+              InputLabelProps={{ shrink: true }}
+            />
           </Grid>
           <Grid item xs={6}>
-            <TextField sx={{ width: '100%' }} label="Email" placeholder="asd" InputLabelProps={{ shrink: true }} />
+            <TextField
+              sx={{ width: '100%' }}
+              label="연락처"
+              value={row?.officer.contact}
+              InputLabelProps={{ shrink: true }}
+            />
           </Grid>
           <Grid item xs={6}>
-            <TextField sx={{ width: '100%' }} label="생년월일" placeholder="asd" InputLabelProps={{ shrink: true }} />
+            <TextField
+              sx={{ width: '100%' }}
+              label="소속"
+              value={row?.officer.affiliation}
+              placeholder="asd"
+              InputLabelProps={{ shrink: true }}
+            />
           </Grid>
           <Grid item xs={6}>
-            <TextField sx={{ width: '100%' }} label="연락처" placeholder="asd" InputLabelProps={{ shrink: true }} />
-          </Grid>
-          <Grid item xs={6}>
-            <TextField sx={{ width: '100%' }} label="소속" placeholder="asd" InputLabelProps={{ shrink: true }} />
-          </Grid>
-          <Grid item xs={6}>
-            <TextField sx={{ width: '100%' }} label="부서" placeholder="asd" InputLabelProps={{ shrink: true }} />
+            <TextField
+              sx={{ width: '100%' }}
+              label="부서"
+              value={row?.officer.department}
+              placeholder="asd"
+              InputLabelProps={{ shrink: true }}
+            />
           </Grid>
         </Grid>
 
-        <ComplaintsModalTable />
+        <ComplaintsModalTable row={row?.related_complaints} />
       </Box>
     </Modal>
   );
