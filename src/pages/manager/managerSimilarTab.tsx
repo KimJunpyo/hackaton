@@ -14,10 +14,10 @@ const createData = (id: number, team: string, department: string, name: string, 
 };
 
 const rows = [
-  createData(1, '건설교통국', '도로교통과', '고길동', '98%', '#'),
-  createData(2, '건설교통국', '도로교통과', '고길동', '98%', '#'),
-  createData(3, '건설교통국', '도로교통과', '고길동', '98%', '#'),
-  createData(4, '건설교통국', '도로교통과', '고길동', '98%', '#'),
+  createData(1, '건설교통국', '도로교통과', '김원미', '98%', '#'),
+  createData(2, '건설교통국', '도로교통과', '김원미', '93%', '#'),
+  createData(3, '건설교통국', '주택과', '김다인', '61%', '#'),
+  createData(4, '건설교통국', '건축과', '홍길동', '49%', '#'),
 ];
 
 export default function ManagerSimilarTab() {
