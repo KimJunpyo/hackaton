@@ -1,11 +1,11 @@
 import { Box, Button, Grid, styled, TextField, Typography } from '@mui/material';
-import { ChangeEvent, useState } from 'react';
+import { ChangeEvent, useEffect, useState } from 'react';
 import ArrowBackIosNewIcon from '@mui/icons-material/ArrowBackIosNew';
 import { useLocation, useNavigate } from 'react-router-dom';
 import BadUserModal from '../../components/BadUserModal.tsx';
-import { useForm } from 'react-hook-form';
+import { FormProvider, useForm } from 'react-hook-form';
 import ManagerCheck from './managerCheck.tsx';
-import { useGetComplaintsIdList } from '../../api/complaints/query.ts';
+import { useGetComplaintsIdList, usePostComplaintsResponse } from '../../api/complaints/query.ts';
 
 const VisuallyHiddenInput = styled('input')({
   clip: 'rect(0 0 0 0)',
@@ -31,7 +31,6 @@ const ManagerAnswer = () => {
     setOpenBadModal(false);
   };
   const defaultValues = {
-    title: '',
     content: '',
     file: [],
   };
@@ -40,6 +39,7 @@ const ManagerAnswer = () => {
 
   const { register, watch, setValue } = method;
 
+  const { mutate } = usePostComplaintsResponse();
   const handleFileDelete = (clickedFile: any) => {
     const idx = fileDetails.findIndex((data: any) => data.name === clickedFile.name);
 
@@ -63,13 +63,14 @@ const ManagerAnswer = () => {
     }
   };
 
-  const handleClickContent = (title: string, content: string) => {
-    setValue('title', title);
+  const handleClickContent = (content: string) => {
     setValue('content', content);
     setTimeout(() => {
       setShow(false);
     }, 500);
   };
+
+  const onSubmit = data => mutate({ complaint: location?.state?.id, author: 2, content: data.content });
 
   return (
     <div className={'flex flex-col'}>
@@ -138,15 +139,6 @@ const ManagerAnswer = () => {
           <Grid container spacing={2} sx={{ mt: 6 }}>
             <Grid item xs={12}>
               <TextField
-                sx={{ width: '100%' }}
-                label="제목"
-                placeholder={'민원 답변의 제목을 입력해주세요.'}
-                InputLabelProps={{ shrink: true }}
-                {...register('title')}
-              />
-            </Grid>
-            <Grid item xs={12}>
-              <TextField
                 label="내용"
                 placeholder={'민원 답변의 내용을 입력해주세요.'}
                 InputLabelProps={{ shrink: true }}
@@ -177,12 +169,12 @@ const ManagerAnswer = () => {
           </Grid>
           <Box display={'flex'} className={'justify-end gap-2.5'}>
             <button
-              className={'bg-white border border-gray-400 px-[12px] w-[64px] h-[36px] text-[14px] rounded-[8px]'}
-              onClick={() => setShow(true)}>
+              onClick={() => setShow(true)}
+              className={'bg-white border border-gray-400 px-[12px] w-[64px] h-[36px] text-[14px] rounded-[8px]'}>
               검수
             </button>
             <button
-              disabled={!(watch('title') && watch('content'))}
+              disabled={!watch('content')}
               className={
                 'bg-white border border-gray-400 px-[12px] w-[64px] h-[36px] text-[14px] rounded-[8px] disabled:border-gray-200 disabled:text-gray-400'
               }>

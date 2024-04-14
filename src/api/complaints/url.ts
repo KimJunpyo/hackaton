@@ -13,3 +13,7 @@ export const complaintListId = (id: number) => {
 export const complaintOfficer = (complaint: number) => {
   return instance.get(`/complaint/complaint-officer/recommend?complaint=${complaint}`);
 };
+
+export const complaintResponse = (complaint: number, author: number, content: string) => {
+  return instance.post(`/complaint/complaint-response`, { complaint, author, content });
+};

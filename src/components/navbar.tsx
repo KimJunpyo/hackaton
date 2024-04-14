@@ -9,13 +9,6 @@ const Navbar = () => {
     <div className="p-2 flex min-w-[174px] h-full">
       <List disablePadding>
         <ListItem
-          className={`rounded-lg text-center ${path.pathname === '/' ? 'bg-green-200 text-black' : ''}`}
-          disablePadding>
-          <ListItemButton onClick={() => navigate('/')}>
-            <ListItemText primary={'민원 입력 화면'} />
-          </ListItemButton>
-        </ListItem>
-        <ListItem
           className={`rounded-lg ${path.pathname.includes('/complaints') ? 'bg-green-200 text-black' : ''}`}
           disablePadding>
           <ListItemButton onClick={() => navigate('/complaints')}>

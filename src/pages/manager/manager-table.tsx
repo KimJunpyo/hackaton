@@ -45,7 +45,7 @@ export default function ManagerTable({ rows }: { rows?: any }) {
                 <TableCell
                   align="center"
                   sx={{ color: 'deepskyblue', cursor: 'pointer' }}
-                  onClick={() => navigate('/manager/ai')}>
+                  onClick={() => navigate('/manager/ai', { state: { id: row.id } })}>
                   AI 도움
                 </TableCell>
               </TableRow>

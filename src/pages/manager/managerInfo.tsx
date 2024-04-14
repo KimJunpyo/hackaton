@@ -1,10 +1,11 @@
 import { Box, Grid, Tab, Tabs, TextField, Typography } from '@mui/material';
 import { useState } from 'react';
 import ArrowBackIosNewIcon from '@mui/icons-material/ArrowBackIosNew';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import ManagerSimilarTab from './managerSimilarTab.tsx';
 import ManagerTemplateTab from './managerTemplateTab.tsx';
 import ManagerReferenceTab from './managerReferenceTab.tsx';
+import { useGetComplaintsIdList } from '../../api/complaints/query.ts';
 
 const dataList = ['유사 사례', '문서 양식', '참고 자료'];
 const createData = (name: string, title: string, location: string, date: string, bad_status: boolean) => {
@@ -15,6 +16,8 @@ const rows = createData('이연진', '저공해자동차 공영주차장 이용�
 const ManagerInfo = () => {
   const [tab, setTab] = useState('유사 사례');
   const navigate = useNavigate();
+  const location = useLocation();
+  const { data: items } = useGetComplaintsIdList(location?.state?.id ?? 0);
 
   const handleChangeTab = (e: any, newValue: any) => {
     console.log(e);
@@ -33,23 +36,33 @@ const ManagerInfo = () => {
       </Typography>
       <Grid container spacing={2}>
         <Grid item xs={4}>
-          <TextField sx={{ width: '100%' }} label="민원인" value={rows.name} InputLabelProps={{ shrink: true }} />
+          <TextField
+            sx={{ width: '100%' }}
+            label="민원인"
+            value={items?.data.complainant_name}
+            InputLabelProps={{ shrink: true }}
+          />
         </Grid>
         <Grid item xs={4}>
           <TextField
             sx={{ width: '100%' }}
             label="민원 발생지"
-            value={rows.location}
+            value={items?.data.location}
             InputLabelProps={{ shrink: true }}
           />
         </Grid>
         <Grid item xs={4}>
-          <TextField sx={{ width: '100%' }} label="민원 날짜" value={rows.date} InputLabelProps={{ shrink: true }} />
+          <TextField
+            sx={{ width: '100%' }}
+            label="민원 날짜"
+            value={items?.data.receipt_date}
+            InputLabelProps={{ shrink: true }}
+          />
         </Grid>
         <Grid item xs={12}>
           <TextField
             label="민원 분석 내용"
-            value={'내용'}
+            value={items?.data.content}
             InputLabelProps={{ shrink: true }}
             type="textarea"
             multiline

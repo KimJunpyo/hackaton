@@ -18,8 +18,8 @@ export default function BasicTable() {
       <Table className={'w-full'}>
         <TableHead className={'bg-green-200 text-white'}>
           <TableRow>
-            <TableCell align="center">민원인</TableCell>
             <TableCell align="center">민원 제목</TableCell>
+            <TableCell align="center">민원인</TableCell>
             <TableCell align="center">민원 발생지</TableCell>
             <TableCell align="center">민원 작성 날짜</TableCell>
           </TableRow>
@@ -32,11 +32,11 @@ export default function BasicTable() {
                   onClick={() => nagivate('/complaints/detail', { state: { id: row.id } })}
                   align="center"
                   sx={{ color: 'deepskyblue', borderBottom: 0, cursor: 'pointer' }}>
-                  {row.warning_message && <FmdBadIcon sx={{ color: 'purple' }} />}
-                  {row.complainant_name}
+                  {row.title}
                 </TableCell>
                 <TableCell align="center" className={'border-0'}>
-                  {row.title}
+                  {row.warning_message && <FmdBadIcon sx={{ color: 'purple' }} />}
+                  {row.complainant_name}
                 </TableCell>
                 <TableCell align="center">{row.location}</TableCell>
                 <TableCell align="center">{row.receipt_date}</TableCell>

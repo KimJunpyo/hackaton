@@ -12,7 +12,6 @@ const routes = createBrowserRouter([
     path: '/',
     element: <RootLayout />,
     children: [
-      { index: true, element: <Home /> },
       {
         path: '/complaints',
         children: [
