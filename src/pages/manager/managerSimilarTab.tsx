@@ -14,10 +14,10 @@ const createData = (id: number, team: string, department: string, name: string, 
 };
 
 const rows = [
-  createData(1, '건설교통국', '도로교통과', '김원미', '98%', '#'),
-  createData(2, '건설교통국', '도로교통과', '김원미', '93%', '#'),
-  createData(3, '건설교통국', '주택과', '김다인', '61%', '#'),
-  createData(4, '건설교통국', '건축과', '홍길동', '49%', '#'),
+  createData(1, '선거 사례금 초과근무수당 병급 지급 가능여부', '도로교통과', '김원미', '98%', '#'),
+  createData(2, '안녕하세요 현업 초과근무 총량제에 대해 질의 드립니다', '도로교통과', '김원미', '93%', '#'),
+  createData(3, '임기제공무원 재채용시 연봉책정(성과연봉 중 가산액)', '주택과', '김다인', '61%', '#'),
+  createData(4, '장기교육 직원격려 출장 해당여부 질의 예산편성집행에 관한 사항', '건축과', '홍길동', '49%', '#'),
 ];
 
 export default function ManagerSimilarTab() {
