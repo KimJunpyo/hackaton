@@ -15,9 +15,7 @@ const createData = (id: number, title: string, department: string, accuracy: str
 
 const rows = [
   createData(1, '지방세법 일부 개정 법률안 공문 양식', '도로교통과', '98%', '#'),
-  createData(1, '건설교통국', '도로교통과', '95%', '#'),
-  createData(1, '건설교통국', '도로교통과', '83%', '#'),
-  createData(1, '건설교통국', '도로교통과', '66%', '#'),
+  createData(1, '090715(설명)기능직제도개편_서울', '도로교통과', '95%', '#'),
 ];
 
 export default function ManagerTemplateTab() {
