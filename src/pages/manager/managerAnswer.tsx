@@ -170,8 +170,8 @@ const ManagerAnswer = () => {
           <Box display={'flex'} className={'justify-end gap-2.5'}>
             <button
               onClick={() => setShow(true)}
-              className={'bg-white border border-gray-400 px-[12px] w-[64px] h-[36px] text-[14px] rounded-[8px]'}>
-              검수
+              className={'bg-white border border-gray-400 px-[12px] w-[100px] h-[36px] text-[14px] rounded-[8px]'}>
+              AI 답변 생성
             </button>
             <button
               disabled={!watch('content')}
